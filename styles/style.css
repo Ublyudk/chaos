@@ -3,7 +3,7 @@ body, html {
     margin: 0; /* Убираем внешние отступы */
     padding: 0; /* Убираем внутренние отступы */
     font-family: 'Georgia', serif; /* Стильный и читаемый шрифт */
-   
+
 }
 
 /* === БОКОВОЕ МЕНЮ === */
@@ -21,7 +21,15 @@ nav.menu {
     padding-top: 4.5em; /* Чтобы не перекрывалось кнопкой */
     transition: transform 0.3s ease; /* Плавный сдвиг при скрытии */
     z-index: 1000; /* Поверх всего */
+   display: flex; /* Размещаем содержимое столбиком */
+    flex-direction: column;
+    overflow-y: auto;
 }
+.submenu {
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
 
 /* Скрытие меню */
 nav.menu.hidden {
@@ -34,6 +42,8 @@ nav.menu ul {
     margin: 0;
     padding: 0;
     text-align: center; /* Центровка */
+    flex-grow: 1; /* Заполняет пространство между шапкой и кнопкой */
+    overflow-y: auto;
 }
 
 /* Отдельный пункт меню */
@@ -105,7 +115,7 @@ header {
     box-shadow: 3px 0 20px rgba(0, 0, 0, 0.3);   /* Тень */
     color: #f3e9ff;                  /* Почти белый цвет текста */
 
-   
+
 }
 
 header h1 {
@@ -245,6 +255,51 @@ main p {
 .menu-toggle:hover {
     background-color: #500000;
 }
+
+/* === КНОПКА ВХОДА — фиксирована снизу бокового меню === */
+.login-button {
+  width: 100%;
+  text-align: center;
+  padding: 1em;
+  box-sizing: border-box;
+  margin-top: auto;
+  z-index: 1;
+}
+
+/* Стиль самой кнопки входа (ссылки) */
+.login-button a {
+  /* Строчно-блочный элемент — можно задавать размеры и паддинги */
+  display: inline-block;
+
+  /* Внутренние отступы вокруг текста */
+  padding: 0.6em 1.5em;
+
+  /* Цвет фона — тёмно-бордовый, подходит к теме */
+  background-color: #300000;
+
+  /* Цвет текста — светлый, хорошо читается на фоне */
+  color: #f4e3c1;
+
+  /* Размер и вес шрифта — подчёркиваем важность кнопки */
+  font-size: 1.1em;
+  font-weight: bold;
+
+  /* Закруглённые края — для мягкого современного вида */
+  border-radius: 8px;
+
+  /* Убираем подчёркивание у ссылки */
+  text-decoration: none;
+
+  /* Плавный переход при наведении */
+  transition: background-color 0.3s ease;
+}
+
+/* Ховер-эффект при наведении мыши */
+.login-button a:hover {
+  /* Более светлый бордовый — создаёт ощущение интерактивности */
+  background-color: #500000;
+}
+
 
 /* === ПРИВЕТСТВЕННЫЙ БЛОК === */
 .welcome {
@@ -435,22 +490,196 @@ body.light-theme main h2 {
 }
 body.light-theme .main p {
   color: #f7dac0;
-
-
-    /* === КНОПКА ВХОДА — снизу === */
-    .login-button {
-      width: 100%;
-      text-align: center;
-      margin-bottom: 1.5em;
     }
 
-    .login-button a {
-      display: inline-block;
-      padding: 0.6em 1.5em;
-      background-color: #300000;
-      color: #f4e3c1;
-      font-size: 1.1em;
-      font-weight: bold;
-      border-radius: 8px;
-      text-decoration: none;
+
+/* === ПРИВЕТСТВЕННЫЙ БЛОК === */
+.welcome {
+    background-color: rgba(240, 234, 255, 0.07); /* Лёгкий фон карточки */
+    border: 1px solid rgba(255, 255, 255, 0.1);  /* Тонкая рамка */
+    backdrop-filter: blur(6px); /* мягкое стеклянное размытие */
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 16px;
+    padding: 2em;
+    margin-bottom: 3em;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    color: #f3e9ff;
+    text-align: center;
+    max-width: 880px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.welcome h2 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+    color: #ffd7a0; /* золотисто-тёплый заголовок */
+}
+
+.welcome p {
+    font-size: 1.1em;
+    line-height: 1.6em;
+    color: #f0e6ff;
+}
+
+/* Подменю — изначально скрыто */
+.submenu {
+    display: none;
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0.5em;
+}
+
+.has-submenu .submenu li {
+    margin: 0.5em 0;
+    padding-left: 3em;        /* Отступ слева, как у обычных пунктов */
+    text-align: left;           /* Выравнивание текста по левому краю */
+}
+
+.has-submenu .submenu a {
+    font-size: 1em;
+    font-weight: normal;
+    color: #ffdbc1;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.has-submenu .submenu a:hover {
+    color: #ffd7a0;
+}
+
+/* Отступ линии от подменю */
+.has-submenu::after {
+    content: "";
+    display: block;
+    height: 2px;
+    background: rgba(255, 220, 170, 0.5);
+    margin: 1em auto 0 auto;
+    width: 85%;
+    border-radius: 2px;
+}
+
+/* === КНОПКА ПЕРЕКЛЮЧЕНИЯ ТЕМЫ === */
+.theme-toggle {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    background-color: #300000;
+    color: #f4e3c1;
+    border: none;
+    padding: 0.4em 0.7em;
+    font-size: 1.1em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    z-index: 1002;
+}
+
+.theme-toggle:hover {
+    background-color: #500000;
+}
+
+/* === СВЕТЛАЯ ТЕМА === */
+body.light-theme {
+  background: #fdf7f0; /* Тёплый белый фон */
+  color: #2a1a0e;       /* Тёмно-коричневый текст */
+}
+
+/* Боковая панель в светлой теме */
+body.light-theme nav.menu {
+  background: linear-gradient(to bottom, rgba(58, 12, 1 ), rgb(110, 30, 12),
+                              rgba(58, 12, 1 )); 
+  /* Градиент от пергамента к бордовому */
+  backdrop-filter: blur(8px);              /* Эффект стекла */
+  -webkit-backdrop-filter: blur(8px);      /* Safari поддержка */
+  border-right: 1px solid rgba(100, 50, 20, 0.2); /* Теплая, еле заметная рамка */
+  box-shadow: 3px 0 10px rgba(0, 0, 0, 0.05);    /* Очень мягкая тень */
+}
+
+/* Основной фон */
+body.light-theme .background {
+    background: linear-gradient(to bottom, #fdaa35, #fbca6f , #fdaa35 );
+/* Ещё светлее, как лист бумаги */
+}
+
+/* Ссылки в боковом меню */
+body.light-theme nav.menu a {
+  color: #e7c199; /* Коричневый, но читаемый */
+}
+
+body.light-theme nav.menu a:hover {
+  color: #b63900; /* Медный, подчёркивает наведение */
+  text-shadow: none;
+}
+
+/* Заголовки */
+body.light-theme header {
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid #e0d3c0;
+  color: #ddc85f;
+}
+
+body.light-theme header h1 {
+  color: #612b00 ;
+}
+
+body.light-theme header nav a {
+  color: #efbd34;
+}
+
+body.light-theme header nav a:hover {
+  color: #b63900;
+}
+
+/* Линии-разделители */
+body.light-theme nav.menu > ul > li:not(:last-child):not(.has-submenu)::after,
+body.light-theme .has-submenu::after {
+  background-color: #d9c4ac;
+}
+
+/* Кнопки */
+body.light-theme .button {
+  background-color: #a5481d;
+  color: #fffaf3;
+}
+
+body.light-theme .button:hover {
+  background-color: #d65a1f;
+}
+
+/* Карточки */
+body.light-theme .feature-block {
+  background-color: rgba(255, 255, 255, 0.6);
+  border: 1px solid #e6d8c8;
+  color: #3a2c1f;
+  box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .feature-block h3 {
+  color: #612b00;
+}
+
+body.light-theme .feature-block p {
+  color: #3a2c1f;
+}
+
+/* Приветственный блок */
+body.light-theme .welcome {
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid #e6d8c8;
+  color: #612b00;
+}
+
+body.light-theme .welcome h2 {
+  color: #8e551f;
+}
+
+body.light-theme .welcome p {
+  color: #3a2c1f;
+}
+body.light-theme main h2 {
+    color: #612b00; /* Тёмно-коричневый, как на старом пергаменте */
+}
+body.light-theme .main p {
+  color: #f7dac0;
     }
